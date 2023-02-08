@@ -1,0 +1,56 @@
+
+html
+{
+    background-color: antiquewhite;
+    text-align: center;
+    height: 100%;
+}
+
+body
+{
+    margin:0%;
+    padding:0%;
+    height: 100%;
+}
+
+#sideBlock
+{
+    background-color: #40a0c5;
+    color: whitesmoke;
+    height: 100%;
+}
+
+#main
+{
+    display:flex;
+    height: 100%;
+}
+
+main
+{
+    flex-grow: 1;
+    
+}
+
+header
+{
+    display: flex;
+    padding:5px;
+    font-weight: bold;
+}
+
+header p
+{
+    margin: 0px;
+}
+
+nav
+{
+    flex-grow: 1;
+}
+
+header, nav a
+{
+    background-color: #534383;
+    color: white;
+}
