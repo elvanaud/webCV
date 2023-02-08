@@ -49,8 +49,13 @@ nav
     flex-grow: 1;
 }
 
-header, nav a
+header, nav a, footer
 {
     background-color: #534383;
+    color: white;
+}
+
+a:visited
+{
     color: white;
 }
