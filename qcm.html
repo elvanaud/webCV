@@ -5,6 +5,8 @@
     <meta charset="utf8"/>
     <link rel="icon" type="image/png" href="me.png" />
     <link rel="stylesheet" href="style.css">
+    
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
@@ -17,6 +19,126 @@
         </nav>
     </header>
     <div id="main">
+        <div id="qcm">
+            <aside id="message"></aside>
+            <h3 id="question"></h3>
+            <ul id="answers"></ul>
+        </div>
+    <script>
+        /* Randomize array in-place using Durstenfeld shuffle algorithm */ //merci stackoverflow ptdrrrr
+        function shuffleArray(array) {
+            for (var i = array.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+        }
+        
+        var questions = JSON.parse(`{
+        "questions": [
+            {
+                "q": "Avec qui je partage ma date de naissance ?",
+                "right":["Johnny Hallyday", "Xi Jinping", "Edward Grieg (compositeur du XIXéme)", "Courteney Cox", "Studio d'animation Ghibli", "Le paratonnerre"],
+                "wrong":[]
+            },
+            {
+                "q": "Dans quels pays ai-je voyagé ?",
+                "right":["Japon"],
+                "wrong":["Australie", "Allemagne", "Corée"]
+            },
+            {
+                "q": "Ma couleur préférée ?",
+                "right":["Bleu clair"],
+                "wrong":["Bleu foncé", "Fuschia", "Rouge"]
+            },
+            {
+                "q": "Mon plat préféré ?",
+                "right":["Couscous", "Tiramisu", "Pâtes carbonara"],
+                "wrong":["Choucroute"]
+            }
+        ]
+        }`).questions;
+        
+        htmlAns = $("#answers");
+        
+        function processQuestion(current_question)
+        {
+            question = questions[current_question];
+            $("#question").html(question.q);
+            
+            answers = []
+            for(ans in question.right)
+            {
+                answers.push(`<button onClick="trueAns()">${question.right[ans]}</button>`);
+            }
+            for(ans in question.wrong)
+            {
+                answers.push(`<button onClick="falseAns()">${question.wrong[ans]}</button>`);
+            }
+            
+            shuffleArray(answers);
+            
+            for(ans in answers)
+            {
+                var li = document.createElement("li");
+                li.innerHTML = answers[ans];
+                htmlAns.append(li);
+            }
+            
+            ansID = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            buttons = $("button");
+            for(b in buttons)
+            {
+                buttons[b].prepend(`${ansID[b]} - `);
+            }
+        }
+        
+        current_question = 0;
+        score = 0;
+        processQuestion(current_question);
+            
+        function trueAns()
+        {
+            score += 10;
+            processQCM(true);
+        }
+        
+        function falseAns()
+        {
+            score -= 5;
+            processQCM(false);
+        }
+        
+        function processQCM(correctAns)
+        {
+            msg = "Bien joué !";
+            styleClass = "won";
+            if(!correctAns) 
+            {
+                msg = "Perdu !";
+                styleClass = "lost"
+            }
+            msgHook = $("#message");
+            msgHook.html(msg+ ` - Score: ${score}`)
+            msgHook.removeClass("won lost");
+            msgHook.addClass(styleClass);
+            
+            htmlAns.empty();
+            current_question++;
+            if(current_question >= questions.length)
+            {
+                //alert("over");
+                $("#question").html(`Score: ${score}`)
+            }
+            else
+            {
+                processQuestion(current_question);
+            }
+            
+        }
+        
+    </script>
     </div>
 </body>
 </html>
