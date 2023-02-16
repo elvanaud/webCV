@@ -78,3 +78,28 @@ a:visited
     font-size: large;
     font-weight: bold;
 }
+
+.trueAns
+{
+    color: darkgreen;
+    font-weight: bold;
+}
+
+.falseAns
+{
+    color: rgb(255,10,10);
+}
+
+.nextBtn:visited
+{ 
+    color: black;
+}
+
+
+@media only screen and (max-width: 600px) {
+    main {
+        display: flex;
+        flex-direction: column;
+    }
+}
+

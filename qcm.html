@@ -23,6 +23,7 @@
             <aside id="message"></aside>
             <h3 id="question"></h3>
             <ul id="answers"></ul>
+            <a href="#" onClick="nextQuestion()" class="nextBtn">Question suivante</a>
         </div>
     <script>
         /* Randomize array in-place using Durstenfeld shuffle algorithm */ //merci stackoverflow ptdrrrr
@@ -64,17 +65,18 @@
         
         function processQuestion(current_question)
         {
+            $(".nextBtn").hide();
             question = questions[current_question];
             $("#question").html(question.q);
             
             answers = []
             for(ans in question.right)
             {
-                answers.push(`<button onClick="trueAns()">${question.right[ans]}</button>`);
+                answers.push(`<button onClick="trueAns()" class="shadowTrue">${question.right[ans]}</button>`);
             }
             for(ans in question.wrong)
             {
-                answers.push(`<button onClick="falseAns()">${question.wrong[ans]}</button>`);
+                answers.push(`<button onClick="falseAns()" class="shadowFalse">${question.wrong[ans]}</button>`);
             }
             
             shuffleArray(answers);
@@ -123,19 +125,30 @@
             msgHook.html(msg+ ` - Score: ${score}`)
             msgHook.removeClass("won lost");
             msgHook.addClass(styleClass);
+            $(".shadowTrue").addClass("trueAns");
+            $(".shadowFalse").addClass("falseAns");
             
+            $(".nextBtn").show();
+        }
+        
+        function nextQuestion()
+        {
             htmlAns.empty();
             current_question++;
+            if(current_question == questions.length-1)
+            {
+                $(".nextBtn").html("Fin");
+            }
             if(current_question >= questions.length)
             {
                 //alert("over");
-                $("#question").html(`Score: ${score}`)
+                $("#question").html(`Score: ${score}`);
+                $(".nextBtn").hide();
             }
             else
             {
                 processQuestion(current_question);
             }
-            
         }
         
     </script>
